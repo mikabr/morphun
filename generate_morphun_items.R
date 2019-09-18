@@ -51,7 +51,8 @@ morph_pred <- broom::augment(aoa_model, newdata = morph_aug) %>%
 # combine morphun item info with imputed AoAs, convert from wide to long, add ids, write csv
 morph_combined <- morph %>%
   left_join(morph_pred) %>%
-  gather(option_type, option, past, stem_add_d, past_add_d, group_trans) %>%
+  mutate(bare_stem = stem) %>%
+  gather(option_type, option, bare_stem, past, stem_add_d, past_add_d, group_trans) %>%
   filter(!is.na(option)) %>%
   arrange(group, stem) %>%
   mutate(id = row_number()) %>%
